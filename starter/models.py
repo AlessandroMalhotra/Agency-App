@@ -1,7 +1,10 @@
 import os
+import json
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import json
+from datetime import datetime
+#from sqlalchemy import Integer, String, Column, Datetime
 
 
 DB_HOST = os.getenv('DB_HOST','127.0.0.1:5432')
@@ -18,14 +21,13 @@ def setup_db(app, database_path=DB_PATH):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
-    db.create_all()
 
 
 class Movies(db.Model):
-    id = db.Column(db.integer, primary_key=True)
-    title = db.Column(db.string(120), unique=True, nullable=False)
-    release_date = db.Column(db.Datetime, nullable=False)
-    actors = db.relationship('Actors', backref'person', lazy=True)
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120), unique=True, nullable=False)
+    release_date = db.Column(db.DateTime, nullable=False)
+    actors = db.relationship('Actors', backref='person', lazy=True)
 
     def insert(self):
         db.session.add(self)
@@ -42,10 +44,10 @@ class Movies(db.Model):
 
 
 class Actors(db.Model):
-    id = db.Column(db.integer, primary_key=True)
-    name = db.Column(db.string(120), nullable=False)
-    age = db.Column(db.integer, nullable=False)
-    gender = db.Column(db.string(120), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    gender = db.Column(db.String(120), nullable=False)
     movies_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)
 
     
@@ -61,4 +63,3 @@ class Actors(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-db.create_all()
