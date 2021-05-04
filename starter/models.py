@@ -20,11 +20,26 @@ def setup_db(app, database_path=DB_PATH):
     db.init_app(app)
     db.create_all()
 
+
 class Movies(db.Model):
     id = db.Column(db.integer, primary_key=True)
     title = db.Column(db.string(120), unique=True, nullable=False)
     release_date = db.Column(db.Datetime, nullable=False)
     actors = db.relationship('Actors', backref'person', lazy=True)
+
+    def insert(self):
+        db.session.add(self)
+        db.commit()
+
+    
+    def update(self):
+        db.session.commit()
+
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 class Actors(db.Model):
     id = db.Column(db.integer, primary_key=True)
@@ -33,4 +48,17 @@ class Actors(db.Model):
     gender = db.Column(db.string(120), nullable=False)
     movies_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)
 
+    
+    def insert(self):
+        db.session.add(self)
+        db.commit()
+
+    
+    def update(self):
+        db.session.commit()
+
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 db.create_all()
