@@ -20,7 +20,7 @@ def create_app(test_config=None):
   def show_movies():
     all_movies = Movies.query.all()
 
-    if all_movies None:
+    if all_movies is None:
       abort(404)
 
     movies = [movie.format() for movie in all_movies]
@@ -54,17 +54,18 @@ def create_app(test_config=None):
     def delete_movies(id):
       delete_movie = Movies.query.get(id=id)
       
-      if delete_movie None:
+      if delete_movie is None:
         abort(404)
       
       try:
         delete_movie.delete()
 
-        return jsonify{(
+        return jsonify({
           'success': True,
           'movies': id
-        )}, 200
-      
+        }), 200
+
+
       except BaseException:
         abort(422)
     
@@ -77,7 +78,7 @@ def create_app(test_config=None):
       
       update_movie = Movies.query.get(id=id)
 
-      if update_movie None:
+      if update_movie is None:
         abort(404)
       
       try:
@@ -95,7 +96,7 @@ def create_app(test_config=None):
         abort(422)
 
     
-    
+
 
 
     
@@ -117,7 +118,7 @@ def create_app(test_config=None):
     def not_found(error):
       return jsonify({
         'success': False,
-        'error': 404
+        'error': 404,
         'message': 'Not Found'
       }), 404
 
