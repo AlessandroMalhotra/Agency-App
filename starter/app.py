@@ -14,12 +14,21 @@ def create_app(test_config=None):
   app = Flask(__name__)
   setup_db(app)
   migrate = Migrate(app, db)
-
-  actor1 = Actors(name='Vin Diesel', age=53, gender='Male', movies_id=1)
-  actor1.insert()
-
   
   
+  @app.route('/movies', methods=['GET'])
+  def show_movies():
+    all_movies = Movies.query.all()
+
+    if all_movies None:
+      abort(404)
+
+    movies = [movie.format() for movie in all_movies]
+    
+    return jsonify({
+      'success': True,
+      'movies': movies
+    }), 200
   
   
   
