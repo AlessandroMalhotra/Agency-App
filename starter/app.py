@@ -50,6 +50,21 @@ def create_app(test_config=None):
         abort(400)
 
     
+    @app.route('/movies/<int:id>', methods=['DELETE'])
+    def delete_movies(id):
+      try:
+        delete_movie = Movies.query.get(id=id)
+        delete_movie.delete()
+
+        movies = Movies.query.all()
+
+        return jsonify{(
+          'success': True,
+          'movies': [movie.format() for movie in movies]
+        )}, 200
+      
+      except BaseException:
+        abort()
     
     
     
