@@ -54,7 +54,7 @@ def create_app(test_config=None):
     def delete_movies(id):
       delete_movie = Movies.query.get(id=id)
       
-      if delete_movie is None:
+      if delete_movie None:
         abort(404)
       
       try:
@@ -67,6 +67,37 @@ def create_app(test_config=None):
       
       except BaseException:
         abort(422)
+    
+
+    @app.route('/movies/<int:id>', methods=['PATCH'])
+    def update_movies(id):
+      req = request.get_json()
+      new_title = req.get('title')
+      new_release_date = req.get('release_date')
+      
+      update_movie = Movies.query.get(id=id)
+
+      if update_movie None:
+        abort(404)
+      
+      try:
+        update.title = new_title
+        update.release_date = new_release_date
+
+        update_movie.update()
+
+        return jsonify({
+          'success': True,
+          'movies': [update_movie.format()]
+        }), 200
+
+      except BaseException:
+        abort(422)
+
+    
+    
+
+
     
     
     
