@@ -29,6 +29,25 @@ def create_app(test_config=None):
       'success': True,
       'movies': movies
     }), 200
+
+
+    @app.route('/movies/create', methods=['POST'])
+    def create_movies():
+      req = request.get_json()
+      new_title = req.get('title')
+      new_release_date = req.get('release_date')
+
+      try:
+        new_movie = Movies(title=new_title, release_date=new_release_date)
+        new_movie.insert()
+
+        return jsonify({
+          'success': True,
+          'new_movie': [new_movie.format()]
+        }), 200
+      
+      except BaseException:
+        abort(400)
   
   
   
