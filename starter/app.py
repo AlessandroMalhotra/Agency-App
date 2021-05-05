@@ -64,6 +64,7 @@ def create_app(test_config=None):
     
     
     ''' Error Handlers '''
+    
     @app.errorhandler(404)
     def not_found(error):
       return jsonify({
