@@ -4,7 +4,6 @@ import json
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-#from sqlalchemy import Integer, String, Column, Datetime
 
 
 DB_HOST = os.getenv('DB_HOST','127.0.0.1:5432')
@@ -26,12 +25,12 @@ def setup_db(app, database_path=DB_PATH):
 class Movies(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), unique=True, nullable=False)
-    release_date = db.Column(db.DateTime, nullable=False)
+    release_date = db.Column(db.String(120), nullable=False)
     actors = db.relationship('Actors', backref='person', lazy=True)
 
     def insert(self):
         db.session.add(self)
-        db.commit()
+        db.session.commit()
 
     
     def update(self):
@@ -41,6 +40,13 @@ class Movies(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    
+    def format(self):
+        return {
+            'title': title,
+            'release_date': release_date
+        }
 
 
 class Actors(db.Model):
@@ -53,7 +59,7 @@ class Actors(db.Model):
     
     def insert(self):
         db.session.add(self)
-        db.commit()
+        db.session.commit()
 
     
     def update(self):
@@ -63,3 +69,11 @@ class Actors(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    
+    def format(self):
+        return {
+            'name': name,
+            'age': age,
+            'gender': gender
+        }

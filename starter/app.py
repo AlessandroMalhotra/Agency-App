@@ -1,4 +1,5 @@
 import os
+import json
 
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -13,11 +14,25 @@ def create_app(test_config=None):
   app = Flask(__name__)
   setup_db(app)
   migrate = Migrate(app, db)
-  CORS(app)
 
+  actor1 = Actors(name='Vin Diesel', age=53, gender='Male', movies_id=1)
+  actor1.insert()
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   return app
 
-APP = create_app()
 
-if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8080, debug=True)
+
