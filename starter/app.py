@@ -50,7 +50,7 @@ def create_app(test_config=None):
         abort(400)
 
     
-    @app.route('/movies/<int:id>', methods=['DELETE'])
+    @app.route('/movies/<int:id>/delete', methods=['DELETE'])
     def delete_movies(id):
       delete_movie = Movies.query.get(id=id)
       
@@ -131,6 +131,24 @@ def create_app(test_config=None):
     except BaseException:
       abort(400)
 
+  
+  @app.route('/actors/<int:id/delete', methods=['DELETE'])
+  def delete_actor(id):
+    remove_actor = Actor.query.get(id=id)
+
+    if remove_actor is None:
+      abort(404)
+    
+    try:
+      remove_actor.delete()
+
+      return jsonify({
+        'success': True,
+        'id': id
+      }), 200
+    
+    except BaseException:
+      abort(422)
 
 
     
