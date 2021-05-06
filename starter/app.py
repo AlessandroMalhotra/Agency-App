@@ -95,7 +95,27 @@ def create_app(test_config=None):
       except BaseException:
         abort(422)
   
-  @app.route('/movies/<int:id>')
+
+  @app.route('/movies/<int:id>', methods=['GET'])
+  def show_ind_movie(id):
+    ''' query the database for the movie which matches the id that has been passed in.
+        then i need to do a new query to the movies and actors database using a join,
+        then filtering by using the first query.id == actors_movie_id,
+        then using all to get all actors whuch matching id and returning jsonify format response of this '''
+    movies = Movies.query.get(id=id)
+    movie_actors = db.session.query(Movies, Actors).join(Movies).join(Actors).\
+      filter(movies.id == actors.movie_id).\
+        all()
+
+    if movie_actors is None:
+      abort(404)
+    
+    movie_and_actors = [movie.format() for movie in movie_actors]
+    return jsonify({
+      'success': True,
+      'movie and actors': movie_and_actors
+    }), 200
+  
   
   @app.route('/actors', methods=['GET'])
   def show_actors():
