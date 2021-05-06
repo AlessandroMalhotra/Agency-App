@@ -70,7 +70,7 @@ def create_app(test_config=None):
         abort(422)
     
 
-    @app.route('/movies/<int:id>', methods=['PATCH'])
+    @app.route('/movies/<int:id>/update', methods=['PATCH'])
     def update_movies(id):
       req = request.get_json()
       new_title = req.get('title')
@@ -94,7 +94,8 @@ def create_app(test_config=None):
 
       except BaseException:
         abort(422)
-      
+  
+  @app.route('/movies/<int:id>')
   
   @app.route('/actors', methods=['GET'])
   def show_actors():
@@ -181,7 +182,7 @@ def create_app(test_config=None):
       abort(422)
 
   
-  
+
     
     
     
