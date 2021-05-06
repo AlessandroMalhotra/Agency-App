@@ -94,9 +94,21 @@ def create_app(test_config=None):
 
       except BaseException:
         abort(422)
+      
+  
+  @app.route('/actors', methods=['GET'])
+  def show_actors():
+    all_actors = Actors.query.all()
 
+    if all_actors is None:
+      abort(404)
     
+    actors = [actor.format() for actor in all_actors]
 
+    return jsonify({
+      'success': True,
+      'actors': actors
+    }), 200
 
 
     
