@@ -42,6 +42,7 @@ def create_app(test_config=None):
     @app.route('/movies/create', methods=['POST'])
     def create_movies():
       req = request.get_json()
+      
       new_title = req.get('title')
       new_release_date = req.get('release_date')
 
@@ -246,6 +247,15 @@ def create_app(test_config=None):
         'error': 422,
         'message': 'Unprocessable'
       }), 422
+
+    
+    @app.errorhandler(405)
+    def method_not_allowed(error):
+      return jsonify({
+        'success': False,
+        'error': 422,
+        'message': 'Method not allowed'
+      }), 405
   
 
   return app
