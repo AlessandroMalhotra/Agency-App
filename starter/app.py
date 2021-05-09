@@ -21,6 +21,7 @@ def create_app(test_config=None):
   def after_request(response):
     response.headers.add('Access-control-Allow-Headers', 'Content-Type, Authorization') 
     response.headers.add('Access-control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
+    return response
 
 
   @app.route('/movies', methods=['GET'])
@@ -59,7 +60,7 @@ def create_app(test_config=None):
     
     @app.route('/movies/<int:id>/delete', methods=['DELETE'])
     def delete_movies(id):
-      delete_movie = Movies.query.get(id=id)
+      delete_movie = Movies.query.get(id)
       
       if delete_movie is None:
         abort(404)
@@ -83,7 +84,7 @@ def create_app(test_config=None):
       new_title = req.get('title')
       new_release_date = req.get('release_date')
       
-      update_movie = Movies.query.get(id=id)
+      update_movie = Movies.query.get(id)
 
       if update_movie is None:
         abort(404)
@@ -109,15 +110,23 @@ def create_app(test_config=None):
         then i need to do a new query to the movies and actors database using a join,
         then filtering by using the first query.id == actors_movie_id,
         then using all to get all actors whuch matching id and returning jsonify format response of this '''
-    movies = Movies.query.get(id=id)
-    movie_actors = db.session.query(Movies, Actors).join(Movies).join(Actors).\
-      filter(movies.id == actors.movie_id).\
+    movies = Movies.query.get(id)
+    movie_actors = db.session.query(Movies, Actors).join(Actors).\
+      filter(Movies.id == Actors.movies_id).\
         all()
 
     if movie_actors is None:
       abort(404)
     
-    movie_and_actors = [movie.format() for movie in movie_actors]
+    movie_and_actors = []
+    for movie, actors in movie_actors:
+      movie_and_actors.append({
+        'actor_name': actors.name,
+        'actor_age': actors.age,
+        'release_date': movie.release_date,
+        'title': movie.title
+      })
+    
     return jsonify({
       'success': True,
       'movie and actors': movie_and_actors
@@ -162,7 +171,7 @@ def create_app(test_config=None):
   
   @app.route('/actors/<int:id>/delete', methods=['DELETE'])
   def delete_actor(id):
-    remove_actor = Actor.query.get(id=id)
+    remove_actor = Actor.query.get(id)
 
     if remove_actor is None:
       abort(404)
@@ -187,7 +196,7 @@ def create_app(test_config=None):
     update_gender = req.get('gender')
     update_movie_id = req.get('movie_id')
     
-    update_actor = Actors.query.get(id=id).one_or_none()
+    update_actor = Actors.query.get(id).one_or_none()
 
     if update_actor is None:
       abort(404)
@@ -208,7 +217,29 @@ def create_app(test_config=None):
     except BaseException:
       abort(422)
 
-  
+  @app.route('/actors/<int:id>', methods=['GET'])
+  def show_ind_movie(id):
+    movies = Actors.query.get(id)
+    movie_actors = db.session.query(Actors, Movies).join(Movies).\
+      filter(Actors.movies_id == Movies.id).\
+        all()
+
+    if movie_actors is None:
+      abort(404)
+    
+    movie_and_actors = []
+    for movie, actors in movie_actors:
+      movie_and_actors.append({
+        'actor_name': actors.name,
+        'actor_age': actors.age,
+        'release_date': movie.release_date,
+        'title': movie.title
+      })
+    
+    return jsonify({
+      'success': True,
+      'movie and actors': movie_and_actors
+    }), 200
 
     
     
