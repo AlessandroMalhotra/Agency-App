@@ -217,11 +217,11 @@ def create_app(test_config=None):
     except BaseException:
       abort(422)
 
-  @app.route('/actors/<int:id>', methods=['GET'])
+  """ @app.route('/actors/<int:id>', methods=['GET'])
   def show_ind_movie(id):
     movies = Actors.query.get(id)
     movie_actors = db.session.query(Actors, Movies).join(Movies).\
-      filter(Actors.movies_id == Movies.id).\
+      filter(Actors.movies_id == Movies.).\
         all()
 
     if movie_actors is None:
@@ -239,15 +239,8 @@ def create_app(test_config=None):
     return jsonify({
       'success': True,
       'movie and actors': movie_and_actors
-    }), 200
+    }), 200 """
 
-    
-    
-    
-    
-    
-    
-    
     
     
     
