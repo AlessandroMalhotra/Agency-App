@@ -217,32 +217,7 @@ def create_app(test_config=None):
     except BaseException:
       abort(422)
 
-  """ @app.route('/actors/<int:id>', methods=['GET'])
-  def show_ind_movie(id):
-    movies = Actors.query.get(id)
-    movie_actors = db.session.query(Actors, Movies).join(Movies).\
-      filter(Actors.movies_id == Movies.).\
-        all()
-
-    if movie_actors is None:
-      abort(404)
-    
-    movie_and_actors = []
-    for movie, actors in movie_actors:
-      movie_and_actors.append({
-        'actor_name': actors.name,
-        'actor_age': actors.age,
-        'release_date': movie.release_date,
-        'title': movie.title
-      })
-    
-    return jsonify({
-      'success': True,
-      'movie and actors': movie_and_actors
-    }), 200 """
-
-    
-    
+  
     
     ''' Error Handlers '''
     
@@ -272,16 +247,7 @@ def create_app(test_config=None):
         'message': 'Unprocessable'
       }), 422
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   return app
 
 
