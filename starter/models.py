@@ -44,8 +44,8 @@ class Movies(db.Model):
     
     def format(self):
         return {
-            'title': title,
-            'release_date': release_date
+            'title': self.title,
+            'release_date': self.release_date
         }
 
 
@@ -73,7 +73,7 @@ class Actors(db.Model):
     
     def format(self):
         return {
-            'name': name,
-            'age': age,
-            'gender': gender
+            'name': self.name,
+            'age': self.age,
+            'gender': self.gender
         }
