@@ -14,8 +14,15 @@ def create_app(test_config=None):
   app = Flask(__name__)
   setup_db(app)
   migrate = Migrate(app, db)
+  CORS(app)
+
   
-  
+  @app.after_request
+  def after_request(response):
+    response.headers.add('Access-control-Allow-Headers', 'Content-Type, Authorization') 
+    response.headers.add('Access-control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
+
+
   @app.route('/movies', methods=['GET'])
   def show_movies():
     all_movies = Movies.query.all()
