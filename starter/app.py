@@ -160,7 +160,7 @@ def create_app(test_config=None):
       abort(400)
 
   
-  @app.route('/actors/<int:id/delete', methods=['DELETE'])
+  @app.route('/actors/<int:id>/delete', methods=['DELETE'])
   def delete_actor(id):
     remove_actor = Actor.query.get(id=id)
 
@@ -179,7 +179,7 @@ def create_app(test_config=None):
       abort(422)
   
 
-  @app.route('/actors/<int:id/update', methods=['PATCH'])
+  @app.route('/actors/<int:id>/update', methods=['PATCH'])
   def update_actor(id):
     req = request.get_json()
     update_name = req.get('name')
