@@ -108,7 +108,7 @@ def create_app(test_config=None):
   def show_ind_movie(id):
     movies = Movies.query.get(id)
     movie_actors = db.session.query(Movies, Actors).join(Actors).\
-      filter(Movies.id == Actors.movies_id).\
+      filter(movies.id == Actors.movies_id).\
         all()
 
     if movie_actors is None:
