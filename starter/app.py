@@ -39,78 +39,73 @@ def create_app(test_config=None):
     }), 200
 
 
-    @app.route('/movies/create', methods=['POST'])
-    def create_movies():
-      req = request.get_json()
-      
-      new_title = req.get('title')
-      new_release_date = req.get('release_date')
+  @app.route('/movies/create', methods=['POST'])
+  def create_movies():
+    req = request.get_json()
+    new_title = req.get('title')
+    new_release_date = req.get('release_date')
+    
+    try:
+      new_movie = Movies(title=new_title, release_date=new_release_date)
+      new_movie.insert()
 
-      try:
-        new_movie = Movies(title=new_title, release_date=new_release_date)
-        new_movie.insert()
-
-        return jsonify({
-          'success': True,
-          'new_movie': [new_movie.format()]
-        }), 200
+      return jsonify({
+        'success': True,
+        'new_movie': [new_movie.format()]
+      }), 200
       
-      except BaseException:
-        abort(400)
+    except BaseException:
+      abort(400)
 
     
-    @app.route('/movies/<int:id>/delete', methods=['DELETE'])
-    def delete_movies(id):
-      delete_movie = Movies.query.get(id)
+  @app.route('/movies/<int:id>/delete', methods=['DELETE'])
+  def delete_movies(id):
+    delete_movie = Movies.query.get(id)
       
-      if delete_movie is None:
-        abort(404)
+    if delete_movie is None:
+      abort(404)
       
-      try:
-        delete_movie.delete()
+    try:
+      delete_movie.delete()
 
-        return jsonify({
-          'success': True,
-          'movies': id
-        }), 200
+      return jsonify({
+        'success': True,
+        'movies': id
+      }), 200
 
 
-      except BaseException:
-        abort(422)
+    except BaseException:
+      abort(422)
     
 
-    @app.route('/movies/<int:id>/update', methods=['PATCH'])
-    def update_movies(id):
-      req = request.get_json()
-      new_title = req.get('title')
-      new_release_date = req.get('release_date')
+  @app.route('/movies/<int:id>/update', methods=['PATCH'])
+  def update_movies(id):
+    req = request.get_json()
+    new_title = req.get('title')
+    new_release_date = req.get('release_date')
       
-      update_movie = Movies.query.get(id)
+    update_movie = Movies.query.get(id)
 
-      if update_movie is None:
-        abort(404)
+    if update_movie is None:
+      abort(404)
       
-      try:
-        update.title = new_title
-        update.release_date = new_release_date
+    try:
+      update.title = new_title
+      update.release_date = new_release_date
 
-        update_movie.update()
+      update_movie.update()
 
-        return jsonify({
-          'success': True,
-          'movies': [update_movie.format()]
+      return jsonify({
+        'success': True,
+        'movies': [update_movie.format()]
         }), 200
-
-      except BaseException:
-        abort(422)
+    
+    except BaseException:
+      abort(422)
   
 
   @app.route('/movies/<int:id>', methods=['GET'])
   def show_ind_movie(id):
-    ''' query the database for the movie which matches the id that has been passed in.
-        then i need to do a new query to the movies and actors database using a join,
-        then filtering by using the first query.id == actors_movie_id,
-        then using all to get all actors whuch matching id and returning jsonify format response of this '''
     movies = Movies.query.get(id)
     movie_actors = db.session.query(Movies, Actors).join(Actors).\
       filter(Movies.id == Actors.movies_id).\
@@ -219,43 +214,43 @@ def create_app(test_config=None):
       abort(422)
 
   
+  
+  ''' Error Handlers '''
     
-    ''' Error Handlers '''
-    
-    @app.errorhandler(404)
-    def not_found(error):
-      return jsonify({
-        'success': False,
-        'error': 404,
-        'message': 'Not Found'
-      }), 404
+  @app.errorhandler(404)
+  def not_found(error):
+    return jsonify({
+      'success': False,
+      'error': 404,
+      'message': 'Not Found'
+    }), 404
 
     
-    @app.errorhandler(400)
-    def bad_request(error):
-      return jsonify({
-        'success': False,
-        'error': 404,
-        'message': 'Bad Request'
-      }), 400
+  @app.errorhandler(400)
+  def bad_request(error):
+    return jsonify({
+      'success': False,
+      'error': 404,
+      'message': 'Bad Request'
+    }), 400
     
 
-    @app.errorhandler(422)
-    def unprocessable(error):
-      return jsonify({
-        'success': False,
-        'error': 422,
-        'message': 'Unprocessable'
-      }), 422
+  @app.errorhandler(422)
+  def unprocessable(error):
+    return jsonify({
+      'success': False,
+      'error': 422,
+      'message': 'Unprocessable'
+    }), 422
 
     
-    @app.errorhandler(405)
-    def method_not_allowed(error):
-      return jsonify({
-        'success': False,
-        'error': 422,
-        'message': 'Method not allowed'
-      }), 405
+  @app.errorhandler(405)
+  def method_not_allowed(error):
+    return jsonify({
+      'success': False,
+      'error': 422,
+      'message': 'Method not allowed'
+    }), 405
   
 
   return app
