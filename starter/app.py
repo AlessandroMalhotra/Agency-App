@@ -150,10 +150,10 @@ def create_app(test_config=None):
     new_name = req.get('name')
     new_age = req.get('age')
     new_gender = req.get('gender')
-    new_movie_id = req.get('movie_id')
+    new_movie_id = req.get('movies_id')
 
     try:
-      new_actor = Actors(name=new_name, age=new_age, gender=new_gneder, movie_id=new_movie_id)
+      new_actor = Actors(name=new_name, age=new_age, gender=new_gender, movies_id=new_movie_id)
       new_actor.insert()
 
       return jsonify({
@@ -230,7 +230,7 @@ def create_app(test_config=None):
   def bad_request(error):
     return jsonify({
       'success': False,
-      'error': 404,
+      'error': 400,
       'message': 'Bad Request'
     }), 400
     
