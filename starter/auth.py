@@ -1,3 +1,7 @@
+from flask import Flask, request, abort
+from functools import wraps
+
+
 def get_token_auth_header():
     if 'Authorization' not in request.headers:
         abort(401)
