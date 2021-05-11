@@ -102,10 +102,25 @@ def verify_decode_jwt(token):
                         "description": "Unable to find appropriate key"}, 401)
 
 
+def check_permissions(permission, payload):
+
+    if 'permissions' not in payload:
+        raise AuthError({'code':'invalid_claims',
+        'description': 'Permissions not included in JWT.'}, 400)
+    
+    if permission not in payload['permissions']:
+        raise AuthError({'code': 'unauthorized',
+        'description': 'Permission not found.'}, 403)
+    
+    return True
+
+
 def requires_auth(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
-        jwt = get_token_auth_header
-        return (jwt, *args, **kwargs)
+        token = get_token_auth_header()
+        payload = verify_decode_jwt()
+        check_permissions(permission, payload)
+        return (payload, *args, **kwargs)
     return wrapper
 
