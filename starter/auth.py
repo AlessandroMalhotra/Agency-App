@@ -10,6 +10,14 @@ AUTH0_DOMAIN = 'alessandromalhotra.eu.auth0.com'
 API_AUDIENCE = 'https://localhost:5050'
 ALGORITHMS = ["RS256"]
 
+
+# Error handler
+class AuthError(Exception):
+    def __init__(self, error, status_code):
+        self.error = error
+        self.status_code = status_code
+
+
 def get_token_auth_header():
    """Obtains the Access Token from the Authorization Header
     """
