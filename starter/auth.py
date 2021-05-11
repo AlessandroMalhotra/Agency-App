@@ -1,12 +1,17 @@
-from flask import Flask, request, abort
+import json
+from six.moves.urllib.request import urlopen
 from functools import wraps
 
+from flask import Flask, request, abort
+from flask_cors import cross_origin
+from jose import jwt
 
 def get_token_auth_header():
-    if 'Authorization' not in request.headers:
-        abort(401)
-    
+   """Obtains the Access Token from the Authorization Header
+    """
     auth_header = request.headers.get('Authorization', None)
+    if not 
+    
     header_parts = auth_header.split(' ')
 
     if len(header_parts) != 2:
