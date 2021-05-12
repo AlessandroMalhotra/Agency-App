@@ -108,7 +108,7 @@ def create_app(test_config=None):
             abort(422)
 
 
-    @app.route('/movies/<int:id>', methods=['GET'])
+    @app.route('/movies/<int:id>/individual', methods=['GET'])
     def show_ind_movie(id):
         movies = Movies.query.get(id)
         movie_actors = db.session.query(Movies, Actors).join(Actors).\
