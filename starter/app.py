@@ -30,6 +30,7 @@ def create_app(test_config=None):
 
 
     @app.route('/movies', methods=['GET'])
+    @requires_auth('get:movies')
     def show_movies():
         all_movies = Movies.query.all()
 
@@ -45,6 +46,7 @@ def create_app(test_config=None):
 
 
     @app.route('/movies/create', methods=['POST'])
+    @requires_auth('post:movies/create')
     def create_movies():
         req = request.get_json()
         new_title = req.get('title')
@@ -64,6 +66,7 @@ def create_app(test_config=None):
 
 
     @app.route('/movies/<int:id>/delete', methods=['DELETE'])
+    @requires_auth('delete:movies/delete')
     def delete_movies(id):
         delete_movie = Movies.query.get(id)
 
@@ -83,6 +86,7 @@ def create_app(test_config=None):
 
 
     @app.route('/movies/<int:id>/update', methods=['PATCH'])
+    @requires_auth('patch:movies/update')
     def update_movies(id):
         req = request.get_json()
         new_title = req.get('title')
@@ -109,6 +113,7 @@ def create_app(test_config=None):
 
 
     @app.route('/movies/<int:id>/individual', methods=['GET'])
+    @requires_auth('get:movies/individual')
     def show_ind_movie(id):
         movies = Movies.query.get(id)
         movie_actors = db.session.query(Movies, Actors).join(Actors).\
@@ -134,6 +139,7 @@ def create_app(test_config=None):
 
 
     @app.route('/actors', methods=['GET'])
+    @requires_auth('get:actors')
     def show_actors():
         all_actors = Actors.query.all()
 
@@ -149,6 +155,7 @@ def create_app(test_config=None):
 
 
     @app.route('/actors/create', methods=['POST'])
+    @requires_auth('post:actors/create')
     def create_actors():
         req = request.get_json()
         new_name = req.get('name')
@@ -174,6 +181,7 @@ def create_app(test_config=None):
 
 
     @app.route('/actors/<int:id>/delete', methods=['DELETE'])
+    @requires_auth('delete:actors/delete')
     def delete_actor(id):
         remove_actor = Actor.query.get(id)
 
@@ -193,6 +201,7 @@ def create_app(test_config=None):
 
 
     @app.route('/actors/<int:id>/update', methods=['PATCH'])
+    @requires_auth('patch:actors/update')
     def update_actor(id):
         req = request.get_json()
         update_name = req.get('name')
