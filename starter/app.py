@@ -31,7 +31,7 @@ def create_app(test_config=None):
 
     @app.route('/movies', methods=['GET'])
     @requires_auth('get:movies')
-    def show_movies():
+    def show_movies(payload):
         all_movies = Movies.query.all()
 
         if all_movies is None:
@@ -47,7 +47,7 @@ def create_app(test_config=None):
 
     @app.route('/movies/create', methods=['POST'])
     @requires_auth('post:movies/create')
-    def create_movies():
+    def create_movies(payload):
         req = request.get_json()
         new_title = req.get('title')
         new_release_date = req.get('release_date')
@@ -67,7 +67,7 @@ def create_app(test_config=None):
 
     @app.route('/movies/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:movies/delete')
-    def delete_movies(id):
+    def delete_movies(payload,id):
         delete_movie = Movies.query.get(id)
 
         if delete_movie is None:
@@ -87,7 +87,7 @@ def create_app(test_config=None):
 
     @app.route('/movies/<int:id>/update', methods=['PATCH'])
     @requires_auth('patch:movies/update')
-    def update_movies(id):
+    def update_movies(payload, id):
         req = request.get_json()
         new_title = req.get('title')
         new_release_date = req.get('release_date')
@@ -114,7 +114,7 @@ def create_app(test_config=None):
 
     @app.route('/movies/<int:id>/individual', methods=['GET'])
     @requires_auth('get:movies/individual')
-    def show_ind_movie(id):
+    def show_ind_movie(payload, id):
         movies = Movies.query.get(id)
         movie_actors = db.session.query(Movies, Actors).join(Actors).\
             filter(movies.id == Actors.movies_id).\
@@ -140,7 +140,7 @@ def create_app(test_config=None):
 
     @app.route('/actors', methods=['GET'])
     @requires_auth('get:actors')
-    def show_actors():
+    def show_actors(payload):
         all_actors = Actors.query.all()
 
         if all_actors is None:
@@ -156,7 +156,7 @@ def create_app(test_config=None):
 
     @app.route('/actors/create', methods=['POST'])
     @requires_auth('post:actors/create')
-    def create_actors():
+    def create_actors(payload):
         req = request.get_json()
         new_name = req.get('name')
         new_age = req.get('age')
@@ -182,7 +182,7 @@ def create_app(test_config=None):
 
     @app.route('/actors/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:actors/delete')
-    def delete_actor(id):
+    def delete_actor(payload, id):
         remove_actor = Actor.query.get(id)
 
         if remove_actor is None:
@@ -202,7 +202,7 @@ def create_app(test_config=None):
 
     @app.route('/actors/<int:id>/update', methods=['PATCH'])
     @requires_auth('patch:actors/update')
-    def update_actor(id):
+    def update_actor(payload, id):
         req = request.get_json()
         update_name = req.get('name')
         update_age = req.get('age')
