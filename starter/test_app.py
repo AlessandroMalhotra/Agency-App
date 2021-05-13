@@ -14,7 +14,6 @@ DB_NAME = os.getenv('DB_NAME', 'capstone_test')
 
 class CapstoneTestCase(unittest.Testcase):
     
-
     def setUp(self):
         self.app = create_app()
         self.client = self.app.test_client
