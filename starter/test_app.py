@@ -21,3 +21,9 @@ class CapstoneTestCase(unittest.Testcase):
         self.database_name = 'capstone_test'
         self.database_path = "postgres://{}:{}@{}/{}".format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
         setup_db(self.app, self.database_path)
+    
+    with self.app.app_context():
+        self.db = SQLAlchemy()
+        self.db.init_app(self.app)
+
+        self.db.create_all()
