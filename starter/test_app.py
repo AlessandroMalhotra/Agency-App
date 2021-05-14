@@ -12,6 +12,7 @@ DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'password123')
 DB_NAME = os.getenv('DB_NAME', 'capstone_test')
 
+
 class CapstoneTestCase(unittest.Testcase):
     
     def setUp(self):
@@ -28,3 +29,12 @@ class CapstoneTestCase(unittest.Testcase):
 
     def tearDown(self):
         pass
+
+
+    def get_all_movies(self):
+        res = self.client().get('/movies')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['movies'])
