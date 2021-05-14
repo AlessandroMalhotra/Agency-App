@@ -46,5 +46,5 @@ class CapstoneTestCase(unittest.Testcase):
 
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqul(data['message'], 'Resource Not Found')
+        self.assertEqual(data['message'], 'Resource Not Found')
 
