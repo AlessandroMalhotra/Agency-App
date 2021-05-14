@@ -31,10 +31,11 @@ class CapstoneTestCase(unittest.Testcase):
         pass
 
 
-    def get_all_movies(self):
+    def test_get_all_movies(self):
         res = self.client().get('/movies')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['movies'])
+    
