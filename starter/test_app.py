@@ -39,3 +39,12 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['movies'])
     
+
+    def test_404_get_all_movies(self):
+        res = self.client().get('/movies?pge=1000', json={'title': 'Cinderella'})
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertEqul(data['message'], 'Resource Not Found')
+
