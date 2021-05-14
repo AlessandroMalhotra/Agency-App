@@ -98,8 +98,8 @@ def create_app(test_config=None):
             abort(404)
 
         try:
-            update.title = new_title
-            update.release_date = new_release_date
+            update_movie.title = new_title
+            update_movie.release_date = new_release_date
 
             update_movie.update()
 
@@ -183,7 +183,7 @@ def create_app(test_config=None):
     @app.route('/actors/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:actors/delete')
     def delete_actor(payload, id):
-        remove_actor = Actor.query.get(id)
+        remove_actor = Actors.query.get(id)
 
         if remove_actor is None:
             abort(404)
