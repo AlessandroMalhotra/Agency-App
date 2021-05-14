@@ -1,8 +1,8 @@
 import json
-from six.moves.urllib.request import urlopen
+from urllib.request import urlopen
 from functools import wraps
 
-from flask import Flask, request, abort
+from flask import Flask, request, _request_ctx_stack
 from flask_cors import cross_origin
 from jose import jwt
 
