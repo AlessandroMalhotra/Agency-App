@@ -26,8 +26,16 @@ class CapstoneTestCase(unittest.Testcase):
             self.db = SQLAlchemy()
             self.db.init_app(self.app)
         
-        self.new_movie = {'title': 'John Wick Chapter 2',
-        'release_d ': '2017'}
+        self.new_movie = {
+            'title': 'John Wick Chapter 2',
+            'release_d ': '2017'}
+
+        self.new_actor = {
+            'name': 'Bennedict Cumberbatch',
+            'age': 27,
+            'gender': 'Male',
+            'movies_id': 1
+        }
     
 
     def tearDown(self):
