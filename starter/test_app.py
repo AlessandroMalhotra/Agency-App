@@ -166,3 +166,12 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['movies'], 1)
         self.assertEqual(actor, None)
+    
+    def test_422_movie_does_not_exist(self):
+        res = self.client().delete('/movies/4/delete')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 422)
+        self.assertEqual(data['message'], 'Unprocessable')
