@@ -110,3 +110,12 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 422)
         self.assertEqual(data['message'], 'Unprocessable')
+    
+
+    def test_get_all_actors(self):
+        res = self.client().get('/actors')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['actors'])
