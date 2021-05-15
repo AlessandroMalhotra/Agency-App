@@ -62,7 +62,7 @@ class CapstoneTestCase(unittest.Testcase):
     
 
     def test_400_create_movie_bad_request(self):
-        res = self.client().post('movies/create/100', json=self.new_movie)
+        res = self.client().post('/movies/create/100', json=self.new_movie)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)
@@ -72,7 +72,7 @@ class CapstoneTestCase(unittest.Testcase):
 
     
     def test_delete_movie(self):
-        res = self.client().delete('movies/1/delete')
+        res = self.client().delete('/movies/1/delete')
         data = json.loads(res.data)
         movie = Movies.query.filter(Movies.id==1).one_or_none()
 
@@ -83,7 +83,7 @@ class CapstoneTestCase(unittest.Testcase):
     
 
     def test_422_movie_does_not_exist(self):
-        res = self.client().delete('movies/4/delete')
+        res = self.client().delete('/movies/4/delete')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -93,10 +93,20 @@ class CapstoneTestCase(unittest.Testcase):
     
 
     def test_update_movie(self):
-        res = self.client().patch('movies/1/update', json={'release_date': '2016'})
+        res = self.client().patch('/movies/1/update', json={'release_date': '2016'})
         data = json.loads(res.data)
         movies = Movies.query.filter(Movies.id==1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(movies.format()['release_date'], 1)
+    
+
+    def test_422_for_failed_update(self):
+        res = self.client().patch('/movies/5/update')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 422)
+        self.assertEqual(data['message'], 'Unprocessable')
