@@ -136,3 +136,13 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Resource Not Found')
+    
+
+    def test_create_actor(self):
+        res = self.client().post('/actors/create', json=self.new_actor)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['new_actor'])
+    
