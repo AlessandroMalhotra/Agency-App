@@ -90,3 +90,13 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 422)
         self.assertEqual(data['message'], 'Unprocessable')
+    
+
+    def test_update_movie(self):
+        res = self.client().patch('movies/1/update', json={'release_date': '2016'})
+        data = json.loads(res.data)
+        movies = Movies.query.filter(Movies.id==1).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(movies.format()['release_date'], 1)
