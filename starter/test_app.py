@@ -197,5 +197,3 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['error'], 422)
         self.assertEqual(data['message'], 'Unprocessable')
     
-    
-    
