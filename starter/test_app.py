@@ -155,3 +155,14 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 400)
         self.assertEqual(data['message'], 'Bad Request')
+    
+
+    def test_delete_actor(self):
+        res = self.client().delete('/actors/1/delete')
+        data = json.loads(res.data)
+        actor = Actors.query.filter(Actors.id==1).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['movies'], 1)
+        self.assertEqual(actor, None)
