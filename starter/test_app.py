@@ -52,5 +52,20 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['message'], 'Resource Not Found')
 
     
+    def test_create_book(self):
+        res = self.client().post('/movies/create', json=self.new_movie)
+        data = json.loads(res.data)
 
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['new_movie'])
+    
 
+    def test_400_create_book_bad_request(self):
+        res = self.client().post('movies/create/100', json=self.new_movie)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 400)
+        self.assertEqual(data['message'], 'Bad Request')
