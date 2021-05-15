@@ -52,7 +52,7 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['message'], 'Resource Not Found')
 
     
-    def test_create_book(self):
+    def test_create_movie(self):
         res = self.client().post('/movies/create', json=self.new_movie)
         data = json.loads(res.data)
 
@@ -61,7 +61,7 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['new_movie'])
     
 
-    def test_400_create_book_bad_request(self):
+    def test_400_create_movie_bad_request(self):
         res = self.client().post('movies/create/100', json=self.new_movie)
         data = json.loads(res.data)
 
@@ -69,3 +69,14 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 400)
         self.assertEqual(data['message'], 'Bad Request')
+
+    
+    def test_delete_movie(self):
+        res = self.client().delete('movies/1/delete')
+        data = json.loads(res.data)
+        movie = Movies.query.filter(Movies.id==1).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['movies'], 1)
+        self.assertEqual(movie, None)
