@@ -177,6 +177,7 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['error'], 422)
         self.assertEqual(data['message'], 'Unprocessable')
     
+
     def test_update_actors(self):
         res = self.client().patch('/actors/1/update', json={'name': 'Bennedict'})
         data = json.loads(res.data)
@@ -185,3 +186,16 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(movies.format()['name'], 1)
+    
+
+    def test_422_for_failed_update(self):
+        res = self.client().patch('/actors/5/update')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 422)
+        self.assertEqual(data['message'], 'Unprocessable')
+    
+    
+    
