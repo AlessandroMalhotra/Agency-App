@@ -25,6 +25,9 @@ class CapstoneTestCase(unittest.Testcase):
         with self.app.app_context():
             self.db = SQLAlchemy()
             self.db.init_app(self.app)
+        
+        self.new_movie = {'title': 'John Wick Chapter 2',
+        'release_d ': '2017'}
     
 
     def tearDown(self):
@@ -47,4 +50,7 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Resource Not Found')
+
+    
+
 
