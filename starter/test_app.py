@@ -167,11 +167,21 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['movies'], 1)
         self.assertEqual(actor, None)
     
-    def test_422_movie_does_not_exist(self):
-        res = self.client().delete('/movies/4/delete')
+
+    def test_422_actor_does_not_exist(self):
+        res = self.client().delete('/actors/4/delete')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 422)
         self.assertEqual(data['message'], 'Unprocessable')
+    
+    def test_update_actors(self):
+        res = self.client().patch('/actors/1/update', json={'name': 'Bennedict'})
+        data = json.loads(res.data)
+        movies = Actors.query.filter(Actors.id==1).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(movies.format()['name'], 1)
