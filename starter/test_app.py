@@ -146,3 +146,12 @@ class CapstoneTestCase(unittest.Testcase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['new_actor'])
     
+
+    def test_400_create_actor_bad_request(self):
+        res = self.client().post('/movies/create/100', json=self.new_actor)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 400)
+        self.assertEqual(data['message'], 'Bad Request')
