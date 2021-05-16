@@ -13,7 +13,7 @@ DB_PASSWORD = os.getenv('DB_PASSWORD', 'password123')
 DB_NAME = os.getenv('DB_NAME', 'capstone_test')
 
 
-class CapstoneTestCase(unittest.Testcase):
+class CapstoneTestCase(unittest.TestCase):
     
     def setUp(self):
         self.app = create_app()
