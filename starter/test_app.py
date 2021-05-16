@@ -196,4 +196,6 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 422)
         self.assertEqual(data['message'], 'Unprocessable')
-    
+
+if __name__ == "__main__":
+    unittest.main() 
