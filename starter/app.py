@@ -32,7 +32,7 @@ def create_app(test_config=None):
     @app.route('/movies', methods=['GET'])
     @requires_auth('get:movies')
     def show_movies(payload):
-        all_movies = Movies.query.all()
+        all_movies = Movies.query.order_by(Movies.id).all()
 
         if all_movies is None:
             abort(404)
@@ -68,7 +68,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:movies/delete')
     def delete_movies(payload,id):
-        delete_movie = Movies.query.get(id)
+        delete_movie = Movies.query.filter_by(id=id).one_or_none()
 
         if delete_movie is None:
             abort(404)
@@ -92,7 +92,7 @@ def create_app(test_config=None):
         new_title = req.get('title')
         new_release_date = req.get('release_date')
 
-        update_movie = Movies.query.get(id)
+        update_movie = Movies.query.filter_by(id=id).one_or_none()
 
         if update_movie is None:
             abort(404)
@@ -115,7 +115,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>/individual', methods=['GET'])
     @requires_auth('get:movies/individual')
     def show_ind_movie(payload, id):
-        movies = Movies.query.get(id)
+        movies = Movies.query.filter_by(id=id).all()
         movie_actors = db.session.query(Movies, Actors).join(Actors).\
             filter(movies.id == Actors.movies_id).\
             all()
@@ -141,7 +141,7 @@ def create_app(test_config=None):
     @app.route('/actors', methods=['GET'])
     @requires_auth('get:actors')
     def show_actors(payload):
-        all_actors = Actors.query.all()
+        all_actors = Actors.query.order_by(Actors.id).all()
 
         if all_actors is None:
             abort(404)
@@ -183,7 +183,7 @@ def create_app(test_config=None):
     @app.route('/actors/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:actors/delete')
     def delete_actor(payload, id):
-        remove_actor = Actors.query.get(id)
+        remove_actor = Actors.query.filter_by(id=id).one_or_none()
 
         if remove_actor is None:
             abort(404)
@@ -209,7 +209,7 @@ def create_app(test_config=None):
         update_gender = req.get('gender')
         update_movie_id = req.get('movie_id')
 
-        update_actor = Actors.query.get(id).one_or_none()
+        update_actor = Actors.query.filter_by(id=id).one_or_none()
 
         if update_actor is None:
             abort(404)
