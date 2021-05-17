@@ -22,7 +22,7 @@ def create_app(test_config=None):
     def after_request(response):
         response.headers.add(
             'Access-control-Allow-Headers',
-            'Content-Type, Authorization')
+            'Content-Type, Authorization, true')
         response.headers.add(
             'Access-control-Allow-Methods',
             'GET, POST, PATCH, DELETE, OPTIONS')
