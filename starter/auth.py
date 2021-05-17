@@ -7,7 +7,7 @@ from flask_cors import cross_origin
 from jose import jwt
 
 AUTH0_DOMAIN = 'alessandromalhotra.eu.auth0.com'
-API_AUDIENCE = 'https://localhost:5050'
+API_AUDIENCE = 'https://localhost:5001'
 ALGORITHMS = ["RS256"]
 
 
