@@ -3,6 +3,7 @@ import unittest
 import json
 
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 
 from app import create_app
 from models import setup_db, Movies, Actors
@@ -11,6 +12,8 @@ DB_HOST = os.getenv('DB_HOST', '127.0.0.1:5432')
 DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'password123')
 DB_NAME = os.getenv('DB_NAME', 'capstone_test')
+
+load_dotenv()
 
 CASTING_ASSISTANT = os.getenv('CASTING_ASSISTANT_JWT')
 
