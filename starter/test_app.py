@@ -33,8 +33,6 @@ class CapstoneTestCase(unittest.TestCase):
             self.db = SQLAlchemy()
             self.db.init_app(self.app)
 
-            self.db.create_all()
-
         
         self.new_movie = {
             'title': 'John Wick Chapter 2',
