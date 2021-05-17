@@ -91,7 +91,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     
     def test_delete_movie(self):
-        res = self.client().delete('/movies/1/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/movies/3/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
         movie = Movies.query.filter(Movies.id==1).one_or_none()
 
@@ -102,7 +102,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_422_movie_does_not_exist(self):
-        res = self.client().delete('/movies/4/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/movies/5/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -112,7 +112,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_movie(self):
-        res = self.client().patch('/movies/1/update', json={'release_date': '2016'}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/movies/2/update', json={'release_date': '2016'}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -179,7 +179,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_422_actor_does_not_exist(self):
-        res = self.client().delete('/actors/4/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/actors/5/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -189,7 +189,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_actors(self):
-        res = self.client().patch('/actors/1/update', json={'name': 'Bennedict'}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/actors/3/update', json={'name': 'Bennedict'}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
         
         self.assertEqual(res.status_code, 200)
