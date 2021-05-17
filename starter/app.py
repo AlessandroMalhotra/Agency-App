@@ -115,7 +115,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>/individual', methods=['GET'])
     @requires_auth('get:movies/individual')
     def show_ind_movie(payload, id):
-        movies = Movies.query.filter_by(id=id).all()
+        movies = Movies.query.get(id)
         movie_actors = db.session.query(Movies, Actors).join(Actors).\
             filter(movies.id == Actors.movies_id).\
             all()
