@@ -25,6 +25,8 @@ def setup_db(app, database_path=DB_PATH):
 
 
 class Movies(db.Model):
+    __tablename__ = 'movies'
+    
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), unique=True, nullable=False)
     release_date = db.Column(db.String(120), nullable=False)
@@ -53,6 +55,8 @@ class Movies(db.Model):
 
 
 class Actors(db.Model):
+    __tablename__ = 'actors'
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     age = db.Column(db.Integer, nullable=False)
