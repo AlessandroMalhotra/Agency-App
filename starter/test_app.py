@@ -35,7 +35,8 @@ class CapstoneTestCase(unittest.TestCase):
         
         self.new_movie = {
             'title': 'John Wick Chapter 2',
-            'release_date': '2017'}
+            'release_date': '2017'
+            }
 
         self.new_actor = {
             'name': 'Bennedict Cumberbatch',
@@ -50,7 +51,7 @@ class CapstoneTestCase(unittest.TestCase):
 
 
     def test_get_all_movies(self):
-        res = self.client().get('/movies', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().get('/movies', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -59,7 +60,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_404_get_all_movies(self):
-        res = self.client().get('/movies?page=1000', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().get('/movies?page=1000', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -68,16 +69,16 @@ class CapstoneTestCase(unittest.TestCase):
 
     
     def test_create_movie(self):
-        res = self.client().post('/movies/create', json=self.new_movie, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().post('/movies/create', json=self.new_movie, headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['new_movie'])
+        self.assertTrue(data['new_movie'])
     
 
     def test_400_create_movie_bad_request(self):
-        res = self.client().post('/movies/create/100', json=self.new_movie, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().post('/movies/create/100', json=self.new_movie, headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)
@@ -87,18 +88,18 @@ class CapstoneTestCase(unittest.TestCase):
 
     
     def test_delete_movie(self):
-        res = self.client().delete('/movies/1/delete', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().delete('/movies/1/delete', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
         movie = Movies.query.filter(Movies.id==1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(data['movies'], 1)
-        self.assertEqual(movie, None)
+        self.assertTrue(movie, None)
     
 
     def test_422_movie_does_not_exist(self):
-        res = self.client().delete('/movies/4/delete', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().delete('/movies/4/delete', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -108,17 +109,17 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_movie(self):
-        res = self.client().patch('/movies/1/update', json={'release_date': '2016'}, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().patch('/movies/1/update', json={'release_date': '2016'}, headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
         movies = Movies.query.filter(Movies.id==1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(movies.format()['release_date'], 1)
+        self.assertTrue(movies.format()['release_date'], 1)
     
 
     def test_422_for_failed_update(self):
-        res = self.client().patch('/movies/5/update', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().patch('/movies/5/update', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -128,7 +129,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_get_all_actors(self):
-        res = self.client().get('/actors', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().get('/actors', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -137,7 +138,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_404_get_all_actors(self):
-        res = self.client().get('/actors?page=1000', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().get('/actors?page=1000', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -146,16 +147,16 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_create_actor(self):
-        res = self.client().post('/actors/create', json=self.new_actor, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().post('/actors/create', json=self.new_actor, headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['new_actor'])
+        self.assertTrue(data['new_actor'])
     
 
     def test_400_create_actor_bad_request(self):
-        res = self.client().post('/movies/create/100', json=self.new_actor, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().post('/movies/create/100', json=self.new_actor, headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)
@@ -165,18 +166,18 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_delete_actor(self):
-        res = self.client().delete('/actors/1/delete', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().delete('/actors/1/delete', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
         actor = Actors.query.filter(Actors.id==1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(data['movies'], 1)
-        self.assertEqual(actor, None)
+        self.assertTrue(actor, None)
     
 
     def test_422_actor_does_not_exist(self):
-        res = self.client().delete('/actors/4/delete', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().delete('/actors/4/delete', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -186,17 +187,17 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_actors(self):
-        res = self.client().patch('/actors/1/update', json={'name': 'Bennedict'}, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().patch('/actors/1/update', json={'name': 'Bennedict'}, headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
         movies = Actors.query.filter(Actors.id==1).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(movies.format()['name'], 1)
+        self.assertTrue(movies.format()['name'], 1)
     
 
     def test_422_for_failed_update(self):
-        res = self.client().patch('/actors/5/update', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
+        res = self.client().patch('/actors/5/update', headers=[('Content-Type', 'application/json'), ('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
