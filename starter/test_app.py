@@ -12,6 +12,8 @@ DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'password123')
 DB_NAME = os.getenv('DB_NAME', 'capstone_test')
 
+CASTING_ASSISTANT = os.getenv('CASTING_ASSISTANT_JWT')
+
 
 class CapstoneTestCase(unittest.TestCase):
     
