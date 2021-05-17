@@ -15,9 +15,9 @@ DB_NAME = os.getenv('DB_NAME', 'capstone_test')
 
 load_dotenv()
 
-CASTING_ASSISTANT = os.getenv('CASTING_ASSISTANT_JWT')
-CASTING_DIRECTOR = os.getenv('CASTING_DIRECTOR_JWT')
-EXECUTIVE_PRODUCER = os.getenv('EXECUTIVE_PRODUCER_JWT')
+CASTING_ASSISTANT = os.environ.get('CASTING_ASSISTANT_JWT')
+CASTING_DIRECTOR = os.environ.get('CASTING_DIRECTOR_JWT')
+EXECUTIVE_PRODUCER = os.environ.get('EXECUTIVE_PRODUCER_JWT')
 
 
 class CapstoneTestCase(unittest.TestCase):
