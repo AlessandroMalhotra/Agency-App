@@ -50,7 +50,7 @@ class CapstoneTestCase(unittest.TestCase):
 
 
     def test_get_all_movies(self):
-        res = self.client().get('/movies', json={'Authorization': f"Bearer {CASTING_ASSISTANT}"})
+        res = self.client().get('/movies', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -59,7 +59,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_404_get_all_movies(self):
-        res = self.client().get('/movies?page=1000', json={'Authorization': f"Bearer {CASTING_ASSISTANT}"})
+        res = self.client().get('/movies?page=1000', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -68,7 +68,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     
     def test_create_movie(self):
-        res = self.client().post('/movies/create', json=self.new_movie, json={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().post('/movies/create', json=self.new_movie, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -77,7 +77,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_400_create_movie_bad_request(self):
-        res = self.client().post('/movies/create/100', json=self.new_movie, json={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().post('/movies/create/100', json=self.new_movie, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)
@@ -87,7 +87,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     
     def test_delete_movie(self):
-        res = self.client().delete('/movies/1/delete', json={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/movies/1/delete', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
         movie = Movies.query.filter(Movies.id==1).one_or_none()
 
@@ -98,7 +98,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_422_movie_does_not_exist(self):
-        res = self.client().delete('/movies/4/delete', json={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/movies/4/delete', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -108,7 +108,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_movie(self):
-        res = self.client().patch('/movies/1/update', json={'release_date': '2016'}, json={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/movies/1/update', json={'release_date': '2016'}, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
         movies = Movies.query.filter(Movies.id==1).one_or_none()
 
@@ -118,7 +118,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_422_for_failed_update(self):
-        res = self.client().patch('/movies/5/update', json={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/movies/5/update', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -128,7 +128,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_get_all_actors(self):
-        res = self.client().get('/actors', json={'Authorization': f"Bearer {CASTING_ASSISTANT}"})
+        res = self.client().get('/actors', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -137,7 +137,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_404_get_all_actors(self):
-        res = self.client().get('/actors?page=1000', json={'Authorization': f"Bearer {CASTING_ASSISTANT}"})
+        res = self.client().get('/actors?page=1000', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -146,7 +146,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_create_actor(self):
-        res = self.client().post('/actors/create', json=self.new_actor, json={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().post('/actors/create', json=self.new_actor, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -155,7 +155,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_400_create_actor_bad_request(self):
-        res = self.client().post('/movies/create/100', json=self.new_actor, json={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().post('/movies/create/100', json=self.new_actor, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)
@@ -165,7 +165,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_delete_actor(self):
-        res = self.client().delete('/actors/1/delete', json={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().delete('/actors/1/delete', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
         actor = Actors.query.filter(Actors.id==1).one_or_none()
 
@@ -176,7 +176,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_422_actor_does_not_exist(self):
-        res = self.client().delete('/actors/4/delete', json={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().delete('/actors/4/delete', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -186,7 +186,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_actors(self):
-        res = self.client().patch('/actors/1/update', json={'name': 'Bennedict'}, json={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/actors/1/update', json={'name': 'Bennedict'}, headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
         movies = Actors.query.filter(Actors.id==1).one_or_none()
 
@@ -196,7 +196,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_422_for_failed_update(self):
-        res = self.client().patch('/actors/5/update', json={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/actors/5/update', headers=[('Authorization', f"Bearer {CASTING_ASSISTANT}")])
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
