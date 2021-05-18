@@ -170,7 +170,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_delete_actor(self):
-        res = self.client().delete('/actors/1/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/actors/7/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
         actor = Actors.query.filter(Actors.id==1).one_or_none()
 
@@ -191,7 +191,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_actors(self):
-        res = self.client().patch('/actors/3/update', json={'name': 'Bennedict'}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/actors/6/update', json={'name': 'Paul Walker', 'age': 45, 'gender': 'male', 'movies_id': 1}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
         
         self.assertEqual(res.status_code, 200)

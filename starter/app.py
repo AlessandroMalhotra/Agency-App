@@ -244,7 +244,7 @@ def create_app(test_config=None):
             abort(422)
         
         finally:
-            db.session.close()\
+            db.session.close()
 
 
     ''' Error Handlers '''
