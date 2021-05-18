@@ -1,10 +1,14 @@
 import os
+import re
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
 DB_PATH = os.environ.get('DATABASE_URL')
+
+if DB_PATH.startswith("postgres://"):
+    DB_PATH = DB_PATH.replace("postgres://", "postgresql://", 1)
 
 db = SQLAlchemy()
 
