@@ -62,18 +62,22 @@ def create_app(test_config=None):
             }), 200
 
         except BaseException:
-            abort(400)
+            abort(405)
+        
+        finally:
+            db.session.close()
 
 
     @app.route('/movies/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:movies/delete')
     def delete_movies(payload,id):
-        delete_movie = Movies.query.filter_by(id=id).one_or_none()
-
-        if delete_movie is None:
-            abort(404)
-
         try:
+            delete_movie = Movies.query.filter_by(id=id).one_or_none()
+
+            if delete_movie is None:
+                abort(404)
+
+        
             delete_movie.delete()
 
             return jsonify({
@@ -83,6 +87,9 @@ def create_app(test_config=None):
 
         except BaseException:
             abort(422)
+        
+        finally:
+            db.session.close()
 
 
     @app.route('/movies/<int:id>/update', methods=['PATCH'])
@@ -177,18 +184,21 @@ def create_app(test_config=None):
             }), 200
 
         except BaseException:
-            abort(400)
+            abort(405)
+        
+        finally:
+            db.session.close()
 
 
     @app.route('/actors/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:actors/delete')
     def delete_actor(payload, id):
-        remove_actor = Actors.query.filter_by(id=id).one_or_none()
-
-        if remove_actor is None:
-            abort(404)
-
         try:
+            remove_actor = Actors.query.filter_by(id=id).one_or_none()
+
+            if remove_actor is None:
+                abort(404)
+
             remove_actor.delete()
 
             return jsonify({
@@ -198,6 +208,9 @@ def create_app(test_config=None):
 
         except BaseException:
             abort(422)
+        
+        finally:
+            db.session.close()
 
 
     @app.route('/actors/<int:id>/update', methods=['PATCH'])
@@ -229,6 +242,9 @@ def create_app(test_config=None):
 
         except BaseException:
             abort(422)
+        
+        finally:
+            db.session.close()\
 
 
     ''' Error Handlers '''

@@ -52,7 +52,7 @@ class CapstoneTestCase(unittest.TestCase):
     def tearDown(self):
         pass
 
-
+    
     def test_get_all_movies(self):
         res = self.client().get('/movies', headers={'Authorization': f"Bearer {CASTING_ASSISTANT}"})
         data = json.loads(res.data)
@@ -69,6 +69,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Resource Not Found')
+    
 
     
     def test_create_movie(self):
@@ -79,15 +80,16 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['new_movie'])
     
+    
 
     def test_400_create_movie_bad_request(self):
         res = self.client().post('/movies/create/?page=100', json=self.new_movie, headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['error'], 400)
-        self.assertEqual(data['message'], 'Bad Request')
+        self.assertEqual(data['error'], 405)
+        self.assertEqual(data['message'], 'Method not Allowed')
 
     
     def test_delete_movie(self):
@@ -161,10 +163,10 @@ class CapstoneTestCase(unittest.TestCase):
         res = self.client().post('/movies/create/?page=100', json=self.new_actor, headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['error'], 400)
-        self.assertEqual(data['message'], 'Bad Request')
+        self.assertEqual(data['error'], 405)
+        self.assertEqual(data['message'], 'Method not Allowed')
     
 
     def test_delete_actor(self):
@@ -205,6 +207,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 422)
         self.assertEqual(data['message'], 'Unprocessable')
+
 
 if __name__ == "__main__":
     unittest.main() 
