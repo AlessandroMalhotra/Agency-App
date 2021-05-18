@@ -4,15 +4,13 @@ import re
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-DB_PATH = os.getenv('DATABASE_URL')
+uri = os.environ.get('DATABASE_URL')
 
-if DB_PATH.startswith("postgres://"):
-    DB_PATH = DB_PATH.replace("postgres://", "postgresql://", 1)
 
 db = SQLAlchemy()
 
 
-def setup_db(app, database_path=DB_PATH):
+def setup_db(app, database_path=uri):
     app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
