@@ -4,13 +4,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
-DB_HOST = os.getenv('DB_HOST', '127.0.0.1:')
+DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PORT = os.getenv('DB_PORT', 5432)
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'password123')
 DB_NAME = os.getenv('DB_NAME', 'capstone')
 
-DB_PATH = 'postgresql://{}:{}@{}{}/{}'.format(
+DB_PATH = 'postgresql://{}:{}@{}:{}/{}'.format(
     DB_USER, DB_PASSWORD, DB_HOST, DB_PORT,DB_NAME)
 
 db = SQLAlchemy()
