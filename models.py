@@ -1,9 +1,7 @@
 import os
-import json
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 
 
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1:5432')
