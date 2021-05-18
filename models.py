@@ -1,14 +1,17 @@
 import os
-import re
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
-DB_PATH = os.environ.get('DATABASE_URL')
+DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
+DB_USER = os.getenv('DB_USER', 'postgres')
+DB_PORT = os.getenv('DB_PORT', 5432)
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'password123')
+DB_NAME = os.getenv('DB_NAME', 'capstone')
 
-if DB_PATH.startswith("postgres://"):
-    DB_PATH = DB_PATH.replace("postgres://", "postgresql://", 1)
+DB_PATH = 'postgresql://{}:{}@{}:{}/{}'.format(
+    DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
 
 db = SQLAlchemy()
 
