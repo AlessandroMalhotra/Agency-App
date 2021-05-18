@@ -62,7 +62,7 @@ def create_app(test_config=None):
             }), 200
 
         except BaseException:
-            abort(405)
+            abort(400)
         
         finally:
             db.session.close()
@@ -165,6 +165,7 @@ def create_app(test_config=None):
     @requires_auth('post:actors/create')
     def create_actors(payload):
         req = request.get_json()
+        
         new_name = req.get('name')
         new_age = req.get('age')
         new_gender = req.get('gender')
@@ -184,7 +185,7 @@ def create_app(test_config=None):
             }), 200
 
         except BaseException:
-            abort(405)
+            abort(400)
         
         finally:
             db.session.close()
@@ -277,7 +278,7 @@ def create_app(test_config=None):
     def method_not_allowed(error):
         return jsonify({
             'success': False,
-            'error': 422,
+            'error': 405,
             'message': 'Method not allowed'
         }), 405
     
