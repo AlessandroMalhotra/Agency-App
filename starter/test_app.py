@@ -37,7 +37,7 @@ class CapstoneTestCase(unittest.TestCase):
 
         
         self.new_movie = {
-            'title': 'Fast and Furious 7',
+            'title': 'Fast and Furious 6',
             'release_date': '2017'
             }
 
@@ -93,12 +93,12 @@ class CapstoneTestCase(unittest.TestCase):
 
     
     def test_delete_movie(self):
-        res = self.client().delete('/movies/22/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/movies/23/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['movies'], 22)
+        self.assertEqual(data['movies'], 23)
     
 
     def test_422_movie_does_not_exist(self):
@@ -168,12 +168,12 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_delete_actor(self):
-        res = self.client().delete('/actors/11/delete', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().delete('/actors/12/delete', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['id'], 11)
+        self.assertEqual(data['id'], 12)
     
 
     def test_422_actor_does_not_exist(self):
