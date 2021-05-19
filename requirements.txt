@@ -2,7 +2,6 @@ acme==0.40.1
 alembic==1.6.2
 attrs==21.2.0
 Automat==20.2.0
-bcrypt==3.2.0
 bleach==3.3.0
 boltons==21.0.0
 canonicaljson==1.4.0
