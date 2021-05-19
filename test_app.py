@@ -38,7 +38,7 @@ class CapstoneTestCase(unittest.TestCase):
 
         
         self.new_movie = {
-            'title': 'Fast and Furious 6',
+            'title': 'Fast and Furious 7',
             'release_date': '2017'
             }
 
@@ -90,16 +90,16 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 404)
-        self.assertEqual(data['message'], 'Resource not Found')
+        self.assertEqual(data['message'], 'Resource Not Found')
 
     
     def test_delete_movie(self):
-        res = self.client().delete('/movies/4/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/movies/3/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['movies'], 4)
+        self.assertEqual(data['movies'], 3)
     
 
     def test_422_movie_does_not_exist(self):
@@ -113,7 +113,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_movie(self):
-        res = self.client().patch('/movies/3/update', json={'title': 'the social network', 'release_date': '2016'}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/movies/2/update', json={'title': 'the social network', 'release_date': '2016'}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -122,7 +122,7 @@ class CapstoneTestCase(unittest.TestCase):
     
     
     def test_400_for_failed_update(self):
-        res = self.client().patch('/movies/3/update', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/movies/1/update', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 400)
@@ -165,11 +165,11 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 404)
-        self.assertEqual(data['message'], 'Resoource Not Found')
+        self.assertEqual(data['message'], 'Resource Not Found')
     
 
     def test_delete_actor(self):
-        res = self.client().delete('/actors/4/delete', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().delete('/actors/3/delete', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -188,7 +188,7 @@ class CapstoneTestCase(unittest.TestCase):
     
 
     def test_update_actors(self):
-        res = self.client().patch('/actors/2/update', json={'name': 'Paul Walker', 'age': 45, 'gender': 'male', 'movies_id': 1}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().patch('/actors/1/update', json={'name': 'Paul Walker', 'age': 45, 'gender': 'male', 'movies_id': 1}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
         
         self.assertEqual(res.status_code, 200)

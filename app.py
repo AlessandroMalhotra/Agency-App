@@ -171,11 +171,7 @@ def create_app(test_config=None):
         new_movie_id = req.get('movies_id')
 
         try:
-            new_actor = Actors(
-                name=new_name,
-                age=new_age,
-                gender=new_gender,
-                movies_id=new_movie_id)
+            new_actor = Actors(name=new_name, age=new_age, gender=new_gender, movies_id=new_movie_id)
             new_actor.insert()
 
             return jsonify({
