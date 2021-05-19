@@ -10,7 +10,6 @@ AUTH0_DOMAIN = 'alessandromalhotra.eu.auth0.com'
 API_AUDIENCE = 'https://localhost:5001'
 ALGORITHMS = ["RS256"]
 
-
 # Error handler
 class AuthError(Exception):
     def __init__(self, error, status_code):

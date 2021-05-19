@@ -9,7 +9,6 @@ from flask_migrate import Migrate
 from models import setup_db, Movies, Actors, db
 from auth import AuthError, requires_auth
 
-
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
@@ -62,7 +61,7 @@ def create_app(test_config=None):
             }), 200
 
         except BaseException:
-            abort(400)
+            abort(405)
         
         finally:
             db.session.close()
@@ -95,16 +94,16 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>/update', methods=['PATCH'])
     @requires_auth('patch:movies/update')
     def update_movies(payload, id):
-        req = request.get_json()
-        new_title = req.get('title')
-        new_release_date = req.get('release_date')
-
         update_movie = Movies.query.filter_by(id=id).one_or_none()
+
+        req = request.get_json()
 
         if update_movie is None:
             abort(404)
 
         try:
+            new_title = req.get('title')
+            new_release_date = req.get('release_date')
             update_movie.title = new_title
             update_movie.release_date = new_release_date
 
@@ -116,7 +115,7 @@ def create_app(test_config=None):
             }), 200
 
         except BaseException:
-            abort(422)
+            abort(400)
 
 
     @app.route('/movies/<int:id>/individual', methods=['GET'])
@@ -185,7 +184,7 @@ def create_app(test_config=None):
             }), 200
 
         except BaseException:
-            abort(400)
+            abort(405)
         
         finally:
             db.session.close()
@@ -217,18 +216,19 @@ def create_app(test_config=None):
     @app.route('/actors/<int:id>/update', methods=['PATCH'])
     @requires_auth('patch:actors/update')
     def update_actor(payload, id):
-        req = request.get_json()
-        update_name = req.get('name')
-        update_age = req.get('age')
-        update_gender = req.get('gender')
-        update_movie_id = req.get('movie_id')
-
         update_actor = Actors.query.filter_by(id=id).one_or_none()
 
         if update_actor is None:
             abort(404)
+        
+        req = request.get_json()
 
         try:
+            update_name = req.get('name')
+            update_age = req.get('age')
+            update_gender = req.get('gender')
+            update_movie_id = req.get('movie_id')
+            
             update_actor.name = update_name
             update_actor.age = update_age
             update_actor.gender = update_gender
@@ -242,7 +242,7 @@ def create_app(test_config=None):
             }), 200
 
         except BaseException:
-            abort(422)
+            abort(400)
         
         finally:
             db.session.close()
@@ -288,6 +288,7 @@ def create_app(test_config=None):
         response = jsonify(ex.error)
         response.status_code = ex.status_code
         return response
+    
     
     return app
 

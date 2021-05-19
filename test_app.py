@@ -3,6 +3,7 @@ import unittest
 import json
 
 from flask_sqlalchemy import SQLAlchemy
+
 from dotenv import load_dotenv
 
 from app import create_app
@@ -82,23 +83,23 @@ class CapstoneTestCase(unittest.TestCase):
     
     
     
-    def test_400_create_movie_bad_request(self):
-        res = self.client().post('/movies/create', json={'titles': 'Lion King', 'release_date': 1}, headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+    def test_404_create_movie_not_found(self):
+        res = self.client().post('/movies/create/1000', json=self.new_movie, headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['error'], 400)
-        self.assertEqual(data['message'], 'Bad Request')
+        self.assertEqual(data['error'], 404)
+        self.assertEqual(data['message'], 'Resource not Found')
 
     
     def test_delete_movie(self):
-        res = self.client().delete('/movies/23/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+        res = self.client().delete('/movies/4/delete', headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['movies'], 23)
+        self.assertEqual(data['movies'], 4)
     
 
     def test_422_movie_does_not_exist(self):
@@ -119,15 +120,15 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['movies'])
     
-
-    def test_422_for_failed_update(self):
-        res = self.client().patch('/movies/6/update', json={'title': 'The Rat Race', 'release_date': '2017'}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+    
+    def test_400_for_failed_update(self):
+        res = self.client().patch('/movies/3/update', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 404)
+        self.assertEqual(res.status_code, 400)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['error'], 404)
-        self.assertEqual(data['message'], 'Resource Not Found')
+        self.assertEqual(data['error'], 400)
+        self.assertEqual(data['message'], 'Bad Request')
     
 
     def test_get_all_actors(self):
@@ -157,18 +158,18 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(data['new_actor'])
     
     
-    def test_400_create_actor_bad_request(self):
-        res = self.client().post('/movies/create', json={'names': 'Daniel Craig', 'age': '43', 'gender': 'male', 'movies_id': 1}, headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
+    def test_404_create_actor_not_found(self):
+        res = self.client().post('/movies/create/100', json={'names': 'Daniel Craig', 'age': '43', 'gender': 'male', 'movies_id': 1}, headers={'Authorization': f"Bearer {CASTING_DIRECTOR}"})
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 400)
+        self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['error'], 400)
-        self.assertEqual(data['message'], 'Bad Request')
+        self.assertEqual(data['error'], 404)
+        self.assertEqual(data['message'], 'Resoource Not Found')
     
 
     def test_delete_actor(self):
-        res = self.client().delete('/actors/12/delete', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+        res = self.client().delete('/actors/4/delete', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -194,16 +195,16 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['updated_actor'])
     
-
-    def test_422_for_failed_update(self):
-        res = self.client().patch('/actors/1/update', json={'name': 'Jimmy Bob', 'age': '24', 'gender': 'male', 'movies_id': 1}, headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
+    
+    def test_400_for_failed_update(self):
+        res = self.client().patch('/actors/1/update', headers={'Authorization': f"Bearer {EXECUTIVE_PRODUCER}"})
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 404)
+        self.assertEqual(res.status_code, 400)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['error'], 404)
-        self.assertEqual(data['message'], 'Resource Not Found')
-
+        self.assertEqual(data['error'], 400)
+        self.assertEqual(data['message'], 'Bad Request')
+    
     
 if __name__ == "__main__":
     unittest.main() 
