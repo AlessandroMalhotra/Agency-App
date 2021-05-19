@@ -10,6 +10,7 @@ AUTH0_DOMAIN = 'alessandromalhotra.eu.auth0.com'
 API_AUDIENCE = 'https://localhost:5001'
 ALGORITHMS = ["RS256"]
 
+
 # Error handler
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -17,6 +18,7 @@ class AuthError(Exception):
         self.status_code = status_code
 
 
+# Auth Header for token
 def get_token_auth_header():
     """Obtains the Access Token from the Authorization Header """
     auth_header = request.headers.get('Authorization', None)
@@ -47,6 +49,7 @@ def get_token_auth_header():
     return token
 
 
+# Verifies the token 
 def verify_decode_jwt(token):
     jsonurl = urlopen(f"https://{AUTH0_DOMAIN}/.well-known/jwks.json")
     jwks = json.loads(jsonurl.read())
@@ -99,6 +102,7 @@ def verify_decode_jwt(token):
                      "description": "Unable to find appropriate key"}, 401)
 
 
+# Check correct permissions in payload
 def check_permissions(permission, payload):
 
     if 'permissions' not in payload:

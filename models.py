@@ -12,7 +12,7 @@ DB_PATH = 'postgresql://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NA
 
 db = SQLAlchemy()
 
-
+# sets up the database
 def setup_db(app, database_path=DB_PATH):
     app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -21,6 +21,7 @@ def setup_db(app, database_path=DB_PATH):
     db.create_all()
 
 
+# Movies table
 class Movies(db.Model):
     __tablename__ = 'movies'
     
@@ -51,6 +52,7 @@ class Movies(db.Model):
         }
 
 
+# Actors table
 class Actors(db.Model):
     __tablename__ = 'actors'
     

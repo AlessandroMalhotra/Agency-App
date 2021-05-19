@@ -14,13 +14,16 @@ DB_USER = os.getenv('DB_USER', 'postgres')
 DB_PASSWORD = os.getenv('DB_PASSWORD', 'password123')
 DB_NAME = os.getenv('DB_NAME', 'capstone_test')
 
+# using dotenv to unpack the environment variables
 load_dotenv()
 
+# assigning env variables to contants
 CASTING_ASSISTANT = os.environ.get('CASTING_ASSISTANT_JWT')
 CASTING_DIRECTOR = os.environ.get('CASTING_DIRECTOR_JWT')
 EXECUTIVE_PRODUCER = os.environ.get('EXECUTIVE_PRODUCER_JWT')
 
 
+# Set up test database
 class CapstoneTestCase(unittest.TestCase):
     
     def setUp(self):
@@ -54,6 +57,7 @@ class CapstoneTestCase(unittest.TestCase):
         pass
 
     
+    # test and error tests for each enpoint (get, delete, post, patch)
     def test_get_all_movies(self):
         res = self.client().get('/movies', headers={'Authorization': f"Bearer {CASTING_ASSISTANT}"})
         data = json.loads(res.data)
@@ -205,6 +209,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['error'], 400)
         self.assertEqual(data['message'], 'Bad Request')
     
-    
+
+# Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main() 
