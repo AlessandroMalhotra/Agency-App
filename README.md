@@ -80,8 +80,8 @@ A casting director mid-level authority and is permitted to view actors and movie
 #### Permissions:
 ```bash
 get:actors    | get:movies 
-delete:actors | post:actors
-patch:actors  | patch:movies
+delete:actors | delete:movies
+post:actors   | post:movies
 ```
 #### Login details:
 ```bash
