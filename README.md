@@ -150,7 +150,15 @@ GET '/actors'
             "id": 1,
             "movies_id": 1,
             "name": "Vin Diesal"
+        },
+        {
+            "age": 43,
+            "gender": "male",
+            "id": 2,
+            "movies_id": 2,
+            "name": "Paul Walker"
         }
+
     ],
     "success": true
 }
