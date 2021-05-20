@@ -1,4 +1,5 @@
 import json
+import os
 from urllib.request import urlopen
 from functools import wraps
 
@@ -6,9 +7,9 @@ from flask import Flask, request, _request_ctx_stack
 from flask_cors import cross_origin
 from jose import jwt
 
-AUTH0_DOMAIN = 'alessandromalhotra.eu.auth0.com'
-API_AUDIENCE = 'https://localhost:5001'
-ALGORITHMS = ["RS256"]
+AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+ALGORITHMS = os.environ.get['ALGORITHMS']
+API_AUDIENCE = os.environ.get('API_AUDIENCE')
 
 
 # Error handler
