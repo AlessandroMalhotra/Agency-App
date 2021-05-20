@@ -11,8 +11,8 @@ With this app i could really demonstrate all the skills i learned throughout the
 
 ### URLs
 
-Casting Agency URL: https://casting-agency-heroku-app.herokuapp.com/ 
-Heroku GitHub repository: https://git.heroku.com/casting-agency-heroku-app.git 
+Casting Agency URL: https://agency-application.herokuapp.com/
+Heroku GitHub repository: https://git.heroku.com/agency-application.git
 
 ## Getting Started
 
