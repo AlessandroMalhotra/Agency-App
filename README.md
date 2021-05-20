@@ -6,6 +6,9 @@ Agency App
 This is the capstone project for the Udacity Full Stack Nanodegree program. 
 The Casting Agency models a company that is responsible for creating movies and managing and assigning actors to those movies. The agency employs a casting assistant, casting director and an executive producer who all have different roles / permissions in the agency.
 
+# Motivation
+With this app i could really demonstrate all the skills i learned throughout the Udacity course and really binded all of the learning together. Builing this app from scratch really instiled complex topics and I feel very competent in building apps on my own in the future.
+
 ### URLs
 
 Casting Agency URL: https://casting-agency-heroku-app.herokuapp.com/ 
