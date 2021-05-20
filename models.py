@@ -4,7 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
-DB_PATH = os.environ.get('DATABASE_URL')
+DB_PATH = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 
 db = SQLAlchemy()
 
