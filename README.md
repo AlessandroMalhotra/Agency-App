@@ -183,7 +183,7 @@ POST '/movies/create'
 {
     "new_movie": [
         {
-            "id": 13,
+            "id": 4,
             "release_date": "1997",
             "title": "Lion King"
         }
