@@ -1,7 +1,12 @@
 import os
 import json
 
-from flask import Flask, request, abort, jsonify
+from flask import(
+    Flask, 
+    request, 
+    abort, 
+    jsonify
+)
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -27,7 +32,13 @@ def create_app(test_config=None):
             'GET, POST, PATCH, DELETE, OPTIONS')
         return response
 
-    # display all the movies
+
+    @app.route('/', methods=['GET'])
+    def index():
+        return jsonify({'message': 'Welcome to My Agency Application'})
+    
+
+    ''' Display all the movies '''
     @app.route('/movies', methods=['GET'])
     @requires_auth('get:movies')
     def show_movies(payload):
@@ -44,7 +55,7 @@ def create_app(test_config=None):
         }), 200
 
 
-    # create new movie
+    ''' Create new movie '''
     @app.route('/movies/create', methods=['POST'])
     @requires_auth('post:movies/create')
     def create_movies(payload):
@@ -68,7 +79,7 @@ def create_app(test_config=None):
             db.session.close()
 
 
-    # delete movies
+    ''' Delete movies '''
     @app.route('/movies/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:movies/delete')
     def delete_movies(payload,id):
@@ -93,7 +104,7 @@ def create_app(test_config=None):
             db.session.close()
 
 
-    # update movies
+    ''' Update movies '''
     @app.route('/movies/<int:id>/update', methods=['PATCH'])
     @requires_auth('patch:movies/update')
     def update_movies(payload, id):
@@ -121,7 +132,7 @@ def create_app(test_config=None):
             abort(400)
 
 
-    # display movies with corresponsing actors
+    ''' Display movies with corresponsing actors '''
     @app.route('/movies/<int:id>/individual', methods=['GET'])
     @requires_auth('get:movies/individual')
     def show_ind_movie(payload, id):
@@ -148,7 +159,7 @@ def create_app(test_config=None):
         }), 200
 
 
-    # get all actors
+    ''' Get all actors '''
     @app.route('/actors', methods=['GET'])
     @requires_auth('get:actors')
     def show_actors(payload):
@@ -165,7 +176,7 @@ def create_app(test_config=None):
         }), 200
 
 
-    # create new actor
+    ''' Create new actor '''
     @app.route('/actors/create', methods=['POST'])
     @requires_auth('post:actors/create')
     def create_actors(payload):
@@ -192,7 +203,7 @@ def create_app(test_config=None):
             db.session.close()
 
 
-    # delete actors by id
+    ''' Delete actors by id '''
     @app.route('/actors/<int:id>/delete', methods=['DELETE'])
     @requires_auth('delete:actors/delete')
     def delete_actor(payload, id):
@@ -216,7 +227,7 @@ def create_app(test_config=None):
             db.session.close()
 
 
-    # update individual actor
+    ''' Update individual actor '''
     @app.route('/actors/<int:id>/update', methods=['PATCH'])
     @requires_auth('patch:actors/update')
     def update_actor(payload, id):

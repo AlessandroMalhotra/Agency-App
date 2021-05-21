@@ -8,7 +8,7 @@ DB_PATH = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 
 db = SQLAlchemy()
 
-# sets up the database
+''' Sets up the database '''
 def setup_db(app, database_path=DB_PATH):
     app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -17,7 +17,7 @@ def setup_db(app, database_path=DB_PATH):
     #db.create_all()
 
 
-# Movies table
+''' Movies table '''
 class Movies(db.Model):
     __tablename__ = 'movies'
     
@@ -48,7 +48,7 @@ class Movies(db.Model):
         }
 
 
-# Actors table
+''' Actors table '''
 class Actors(db.Model):
     __tablename__ = 'actors'
     
