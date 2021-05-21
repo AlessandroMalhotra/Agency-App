@@ -31,7 +31,7 @@ I recommend working within a virtual environment whenever using Python for proje
 Once the virtual environment is setup and running, install dependencies by navigating to the working project directory and running:
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 This will install all of the required packages we selected within the `requirements.txt` file.
@@ -53,8 +53,8 @@ From within the directory first ensure you are working using your created virtua
 To run the server, execute:
 
 ```bash
-export FLASK_APP=app.py
-export FLASK_ENV=development
+set FLASK_APP=app.py
+set FLASK_ENV=development
 flask run -h localhost -p 5001
 ```
 
